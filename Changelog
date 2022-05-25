@@ -1,3 +1,14 @@
+phyghtmap (1.21) stable; urgency=low
+
+  * Added --start-node-id option to specify values high enough to not collide
+    with other osm data
+  * Output node ids are now continuous; no id is given twice per run of
+    phyghtmap
+  * Fixed bug in NASASRTMUtil.getFiles():  Cached viewfinder files were not
+    correctly identified when the --srtm and --viefinder-mask options differed 
+
+ -- Adrian Dempwolff <dempwolff@informatik.uni-heidelberg.de>  Mon, 28 Mar 2011 13:18:00 +0200
+
 phyghtmap (1.2) stable; urgency=low
 
   * Added support for viewfinderpanoramas.org height data.  This covers void

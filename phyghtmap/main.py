@@ -5,7 +5,7 @@
 
 __author__ = "Markus Demleitner (msdemlei@users.sf.net), " +\
 	"Adrian Dempwolff (dempwolff@informatik.uni-heidelberg.de)"
-__version__ = "1.2"
+__version__ = "1.21"
 __copyright__ = "Copyright (c) 2009-2010 Markus Demleitner, Adrian Dempwolff"
 __license__ = "GPLv2"
 
@@ -63,6 +63,12 @@ def parseCommandLine():
 		"\ncontour data with newer JOSM versions.  The default value is None.",
 		metavar="VERSIONTAG", dest="versionTag", action="store", default=None,
 		type="int")
+	parser.add_option("--start-node-id", help="specify an integer as id of"
+		"\nthe first written node in the output OSM xml.  It defaults to 10000000"
+		"\nbut some OSM xml mergers are running into trouble when encountering non"
+		"\nunique ids.  In this case and for the moment, it is safe to say"
+		"\n10000000000 (ten billion) then.", dest="startId", type="int",
+		default=10000000, action="store")
 	parser.add_option("--srtm", help="use SRTM resolution of SRTM-RESOLUTION"
 		"\narc seconds.  Note that the finer 1 arc second grid is only available"
 		"\nin the USA.  Possible values are 1 and 3, the default value is 3.",
@@ -112,12 +118,12 @@ def processHgtFile(srcName, opts):
 			try:
 				contourData = tile.contourLines(stepCont=int(opts.contourStepSize))
 				output = osmUtil.Output(makeOsmFilename(tile.bbox(), opts, srcName),
-					versionTag=opts.versionTag)
+					versionTag=opts.versionTag, startId=opts.startId)
 				try:
 					osmUtil.writeXML(output, osmUtil.makeElevClassifier(
 							*[int(h) for h in opts.lineCats.split(",")]), contourData)
 				finally:
-					output.done()
+					opts.startId = output.done()
 			except ValueError: # if arrays with the same value at each position are
 			                   # tried to be evaluated
 				pass

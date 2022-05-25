@@ -238,7 +238,7 @@ def getFiles(area, resolution, viewfinder=False):
 	except:
 		os.mkdir(VIEWhgtSaveSubDir)
 	bbox = calcBbox(area)
-	print bbox
+	#print bbox
 	filesToDownload = makeFileNames(bbox, resolution, viewfinder)	
 	files = []
 	for area, url in sorted(filesToDownload.items()):
@@ -247,13 +247,15 @@ def getFiles(area, resolution, viewfinder=False):
 			continue
 		if "viewfinderpanoramas" in url:
 			hgtSaveSubDir = VIEWhgtSaveSubDir
+			fileResolution = viewfinder
 		else:
 			hgtSaveSubDir = NASAhgtSaveSubDir
+			fileResolution = resolution
 		saveZipFilename = os.path.join(hgtSaveSubDir, url.split("/")[-1])
 		saveFilename = os.path.join(hgtSaveSubDir, "%s.hgt"%area)
 		try:
 			os.stat(saveFilename)
-			wantedSize = 2 * (3600/resolution + 1)**2
+			wantedSize = 2 * (3600/fileResolution + 1)**2
 			foundSize = os.path.getsize(saveFilename)
 			if foundSize != wantedSize:
 				raise IOError("Wrong size: Expected %i, found %i"(wantedSize,foundSize))
