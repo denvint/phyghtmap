@@ -754,8 +754,8 @@ def downloadAndUnzip_Zip(url, area, source):
 					return downloadAndUnzip(viewUrl, area, source)
 		except:
 			print("{0:s}: downloading file {1:s} to {2:s} ...".format(area, url, saveZipFilename))
-			downloadToFile(url, saveZipFilename, source)
 			try:
+				downloadToFile(url, saveZipFilename, source)
 				areaNames = unzipFile(saveZipFilename, area)
 				if source.startswith("view"):
 					updateViewIndex(fileResolution, url, areaNames)
