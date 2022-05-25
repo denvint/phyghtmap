@@ -86,14 +86,18 @@ def processHgtFile(srcName, opts):
 		if opts.plotName:
 			tile.plotData("%s_heightPlot.xyz"%opts.plotName)
 		else:
-			contourData = tile.contourLines(stepCont=int(opts.contourStepSize))
-			output = osmUtil.Output(makeOsmFilename(tile.bbox(), opts),
-				versionTag=opts.versionTag)
 			try:
-				osmUtil.writeXML(output, osmUtil.makeElevClassifier(
-						*[int(h) for h in opts.lineCats.split(",")]), contourData)
-			finally:
-				output.done()
+				contourData = tile.contourLines(stepCont=int(opts.contourStepSize))
+				output = osmUtil.Output(makeOsmFilename(tile.bbox(), opts),
+					versionTag=opts.versionTag)
+				try:
+					osmUtil.writeXML(output, osmUtil.makeElevClassifier(
+							*[int(h) for h in opts.lineCats.split(",")]), contourData)
+				finally:
+					output.done()
+			except ValueError: # if arrays with the same value at each position are
+			                   # tried to be evaluated
+				pass
 
 class ProcessQueue(object):
 	def __init__(self, nJobs, fileList, **kwargs):

@@ -1,3 +1,10 @@
+phyghtmap (1.11) stable; urgency=low
+
+  * Fixed issue of phyghtmap crashing if arrays with the same value at each
+    position were evaluated.
+
+ -- Adrian Dempwolff <dempwolff@informatik.uni-heidelberg.de>  Sun, 31 Jan 2010 14:45:00 +0100
+
 phyghtmap (1.1) stable; urgency=low
 
   * Added SRTM1 compatibility.
